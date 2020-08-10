@@ -1,4 +1,4 @@
-// Define UI Vars
+// Define UI Variables
 const form = document.querySelector('#task-form');
 const taskList = document.querySelector('.collection');
 const taskCompleted = document.querySelector('.collection-x');
@@ -12,7 +12,7 @@ const addTaskItem = document.querySelector('.add-task-action')
 // Load all event listeners
 loadEventListeners();
 
-// Load all event listeners
+// List of all event listeners
 function loadEventListeners() {
   // DOM Load event
   document.addEventListener('DOMContentLoaded', getTasks);
@@ -25,21 +25,20 @@ function loadEventListeners() {
   taskList.addEventListener('click', addCompletedTask);
 }
 
-// Get Tasks from LS
+// Get Tasks from LocalStorage
 function getTasks() {
-    let tasks = [["Buy MacBook", "Tomorrow"], ["Pay School Fees", "TOday"]];
+    let tasks;
     if(localStorage.getItem('tasks') === null){
       tasks = [];
     } else {
       tasks = JSON.parse(localStorage.getItem('tasks'));
     }
-    console.log(tasks)
     tasks.forEach(function(task){
       // Create li element
       const taskItem = document.createElement('li');
       // Add class
       taskItem.className = 'collection-item';
-      //Create elements and button, and embed inside li element
+      //Create elements and button, and embed them inside li element
       const taskContent = document.createElement('span');
       taskContent.className = 'task';
       taskContent.textContent = `${task[0]}`;
@@ -51,19 +50,18 @@ function getTasks() {
       const completeBtn = document.createElement('button');
       completeBtn.className = 'secondary-content';
       completeBtn.textContent = 'completed'
-      // Create text node and append to li
+      // Append the elements and button to li element
       taskItem.appendChild(taskContent);
       taskItem.appendChild(timeContent);
       taskItem.appendChild(completeBtn);
   
-      // Append li to ul
+      // Append li to ul element
       taskList.appendChild(taskItem);
     });
-    return taskList
   }
 
 
-// Get Completed Tasks from LS
+// Get Completed Tasks from LocalStorage
 function getCompletedTasks() {
     let completedTasks = [];
     if(localStorage.getItem('completedTasks') === null){
@@ -71,13 +69,12 @@ function getCompletedTasks() {
     } else {
       completedTasks = JSON.parse(localStorage.getItem('completedTasks'));
     }
-    console.log(completedTasks)
   
     completedTasks.forEach(function(task){
       // Create li element
       const completedTaskItem = document.createElement('li');
       // Add class
-      completedTaskItem.className = 'collection-x';
+      completedTaskItem.className = 'collection-x-item';
       //Create elements and button, and embed inside li element
       const completedTaskContent = document.createElement('span');
       completedTaskContent.className = 'task';
@@ -90,16 +87,15 @@ function getCompletedTasks() {
       const deleteBtn = document.createElement('button');
       deleteBtn.className = 'clear-tasks';
       deleteBtn.textContent = 'delete'
-      // Create text node and append to li
+      // Append the elements and button to li element
       completedTaskItem.appendChild(completedTaskContent);
       completedTaskItem.appendChild(completedTimeContent);
       completedTaskItem.appendChild(deleteBtn);
   
-      // Append li to ul
+      // Append li to ul element
       taskCompleted.appendChild(completedTaskItem);
       console.log(task, taskCompleted);
     });
-    return taskCompleted;
   }
 
   // Add Task to Incomplete Tasks
@@ -123,14 +119,14 @@ function addTask(e) {
     const completeBtn = document.createElement('button');
     completeBtn.className = 'secondary-content';
     completeBtn.textContent = 'completed'
-    // Create text node and append to li
+    // Append the elements and button to li element
     taskItem.appendChild(taskContent);
     taskItem.appendChild(timeContent);
     taskItem.appendChild(completeBtn);
 
-    // Append li to ul
+    // Append li to ul element
     taskList.appendChild(taskItem);
-    // Store in LS
+    // Store in LocalStorage
     storeTaskInLocalStorage(taskInput.value, timeInput.value);
   
     // Clear input
@@ -140,7 +136,7 @@ function addTask(e) {
     e.preventDefault();
   }
 
-// Store Task
+// Store Incomplete Tasks in LocalStorage
 function storeTaskInLocalStorage(task, time) {
     let tasks;
     if(localStorage.getItem('tasks') === null){
@@ -154,7 +150,7 @@ function storeTaskInLocalStorage(task, time) {
     localStorage.setItem('tasks', JSON.stringify(tasks));
   }
 
-  // Store Completed Task
+  // Store Completed Task in LocalStorage
 function storeCompletedTaskInLocalStorage(tasks) {
     let completedTasks;
     if(localStorage.getItem('completedTasks') === null){
@@ -180,7 +176,7 @@ function removeTask(e) {
 }
 
 
-  // Remove task and add it to completed task event
+  // Remove Incompleted task and add it to completed task event
 function addCompletedTask(e) {
     if(e.target.parentElement.classList.contains('collection-item')) {
         e.target.parentElement.className = 'collection-x-item';
@@ -189,29 +185,49 @@ function addCompletedTask(e) {
         taskCompleted.appendChild(e.target.parentElement);
         storeCompletedTaskInLocalStorage(e.target.parentElement); 
         // Remove from LS
-        //removeCompletedTaskFromLocalStorage(e.target.parentElement);
+        removeTaskFromLocalStorage(e.target.parentElement);
     }
   }
 
-  // Remove from LS
-function removeCompletedTaskFromLocalStorage(taskItem) {
-    let completedTasks;
-    if(localStorage.getItem('completedTasks') === null){
-      completedTasks = [];
+  // Remove Incomplete task from LocalStorage after moving to completed tasks
+function removeTaskFromLocalStorage(taskItem) {
+    let tasks;
+    if(localStorage.getItem('tasks') === null){
+      tasks = [];
     } else {
-      completedTasks = JSON.parse(localStorage.getItem('completedTasks'));
+      tasks = JSON.parse(localStorage.getItem('tasks'));
     }
 
-    console.log(completedTasks)
-    console.log(taskItem)
+    let content = [taskItem.children[0].textContent, taskItem.children[1].textContent];
 
-    completedTasks.forEach(function(task, index){
-      if([taskItem.children[0].textContent, taskItem.children[1].textContent] === task){
-        completedTasks.splice(index, 1);
+    tasks.forEach(function(task, index){
+      console.log(task[0] == content[0]);
+      if(task[0] == content[0] && task[1] == content[1]){
+        tasks.splice(index, 1);
       }
     });
-  
-    localStorage.setItem('completedTasks', JSON.stringify(completedTasks));
+
+    localStorage.setItem('tasks', JSON.stringify(tasks));
   }
 
-  console.log(taskList.textContent);
+
+   // Remove Completed Task from LocalStorage
+function removeCompletedTaskFromLocalStorage(taskItem) {
+  let completedTasks;
+  if(localStorage.getItem('completedTasks') === null){
+    completedTasks = [];
+  } else {
+    completedTasks = JSON.parse(localStorage.getItem('completedTasks'));
+  }
+  console.log(completedTasks)
+
+  let content = [taskItem.children[0].textContent, taskItem.children[1].textContent];
+
+  completedTasks.forEach(function(task, index){
+    if(task[0] == content[0] && task[1] == content[1]){
+      completedTasks.splice(index, 1);
+    }
+  });
+
+  localStorage.setItem('completedTasks', JSON.stringify(completedTasks));
+}
