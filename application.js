@@ -186,6 +186,7 @@ function addCompletedTask(e) {
         storeCompletedTaskInLocalStorage(e.target.parentElement); 
         // Remove from LS
         removeTaskFromLocalStorage(e.target.parentElement);
+        location.reload();
     }
   }
 
