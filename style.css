@@ -195,6 +195,15 @@ button:hover {
         border: none;
     }
 
+    #task {
+        border-bottom: 1.5px solid  #3d3d3d;
+    }
+
+
+    #time {
+        border-bottom: 1.5px solid  #3d3d3d;
+    }
+
     .collection-item {
         font-size: .8rem;
     }
