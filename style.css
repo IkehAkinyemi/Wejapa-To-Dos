@@ -167,14 +167,23 @@ button:hover {
 }
 
 @media screen and (max-width: 767px) {
+    body {
+        background: #ffffff;
+    }
     .entire-body {
         margin: 0rem;
+        border: none;
     }
 }
 
 @media screen and (max-width: 471px) {
     body {
         font-size: .5rem;
+        background: #ffffff;
+    }
+
+    .entire-body {
+        border: none;
     }
 
     .collection-item {
