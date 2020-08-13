@@ -49,7 +49,7 @@ function getTasks() {
 
       const completeBtn = document.createElement('button');
       completeBtn.className = 'secondary-content';
-      completeBtn.textContent = 'completed'
+      completeBtn.textContent = 'completed?'
       // Append the elements and button to li element
       taskItem.appendChild(taskContent);
       taskItem.appendChild(timeContent);
@@ -100,9 +100,10 @@ function getCompletedTasks() {
 
   // Add Task to Incomplete Tasks
 function addTask(e) {
-    if(taskInput.value === '') {
-      alert('Add a task');
-    }
+    if(taskInput.value === '' || timeInput.value === '') {
+      if (taskInput.value === '') alert('Add a task')
+      else alert('Add a time');
+    } else {
     // Create li element
     const taskItem = document.createElement('li');
     // Add class
@@ -134,6 +135,7 @@ function addTask(e) {
     timeInput.value = '';
   
     e.preventDefault();
+    }
   }
 
 // Store Incomplete Tasks in LocalStorage
