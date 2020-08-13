@@ -119,7 +119,7 @@ function addTask(e) {
 
     const completeBtn = document.createElement('button');
     completeBtn.className = 'secondary-content';
-    completeBtn.textContent = 'completed'
+    completeBtn.textContent = 'completed?'
     // Append the elements and button to li element
     taskItem.appendChild(taskContent);
     taskItem.appendChild(timeContent);
