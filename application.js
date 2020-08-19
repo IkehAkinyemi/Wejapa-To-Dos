@@ -167,7 +167,7 @@ function storeCompletedTaskInLocalStorage(tasks) {
 
   // Remove Completed Tasks
 function removeTask(e) {
-    if(e.target.parentElement.classList.contains('collection-x-item')) {
+    if(e.target.parentElement.classList.contains('collection-x-item') && e.target.classList.contains('clear-tasks')) {
       if(confirm('Are You Sure?')) {
         e.target.parentElement.remove();
   
@@ -180,7 +180,7 @@ function removeTask(e) {
 
   // Remove Incompleted task and add it to completed task event
 function addCompletedTask(e) {
-    if(e.target.parentElement.classList.contains('collection-item')) {
+    if(e.target.parentElement.classList.contains('collection-item') && e.target.classList.contains('secondary-content')) {
         e.target.parentElement.className = 'collection-x-item';
         e.target.textContent = 'delete';
         e.target.className = 'clear-task';
